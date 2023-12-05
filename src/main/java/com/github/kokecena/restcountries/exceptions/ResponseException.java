@@ -1,6 +1,8 @@
 package com.github.kokecena.restcountries.exceptions;
 
 import com.github.kokecena.restcountries.utils.Response;
+import com.github.kokecena.restcountries.utils.ResponseUtils;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 public abstract class ResponseException extends RuntimeException {
@@ -23,6 +25,10 @@ public abstract class ResponseException extends RuntimeException {
         super(message, cause, enableSuppression, writableStackTrace);
     }
 
-    public abstract ResponseEntity<Response<?>> getResponse();
+    public abstract HttpStatus getHttpStatus();
+
+    public ResponseEntity<Response<?>> getResponse() {
+        return ResponseUtils.createResponse(getMessage(), getHttpStatus());
+    }
 
 }
