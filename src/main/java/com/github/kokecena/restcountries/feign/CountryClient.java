@@ -1,6 +1,7 @@
 package com.github.kokecena.restcountries.feign;
 
 import com.github.kokecena.restcountries.exceptions.CountryNotFoundException;
+import com.github.kokecena.restcountries.exceptions.InternalServerException;
 import com.github.kokecena.restcountries.feign.handle.HandleFeignError;
 import com.github.kokecena.restcountries.feign.handler.CountryClientExceptionHandler;
 import com.github.kokecena.restcountries.model.Country;
@@ -16,5 +17,5 @@ import java.util.List;
 public interface CountryClient {
     @GetMapping(value = "name/{name}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @HandleFeignError(CountryClientExceptionHandler.class)
-    List<Country> getCountry(@PathVariable String name, @RequestParam(required = false) boolean fullText) throws CountryNotFoundException;
+    List<Country> getCountry(@PathVariable String name, @RequestParam(required = false) boolean fullText) throws CountryNotFoundException, InternalServerException;
 }

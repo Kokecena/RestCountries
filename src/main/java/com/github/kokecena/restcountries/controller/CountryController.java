@@ -8,13 +8,13 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@RequestMapping("/api/v1/country")
+@RequestMapping("/api/v1/country/")
 @RequiredArgsConstructor
 public class CountryController {
 
     private final CountryService service;
 
-    @GetMapping("/name/{name}")
+    @GetMapping("name/{name}")
     public ResponseEntity<Response<?>> getCountryByName(@PathVariable String name, @RequestParam(required = false) boolean fullText) {
         return service.getCountryByName(name, fullText);
     }

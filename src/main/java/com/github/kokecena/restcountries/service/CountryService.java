@@ -3,6 +3,7 @@ package com.github.kokecena.restcountries.service;
 import com.github.kokecena.restcountries.exceptions.CountryNotFoundException;
 import com.github.kokecena.restcountries.exceptions.EmptyPathVariableException;
 import com.github.kokecena.restcountries.exceptions.IllegalCharacterException;
+import com.github.kokecena.restcountries.exceptions.InternalServerException;
 import com.github.kokecena.restcountries.feign.CountryClient;
 import com.github.kokecena.restcountries.utils.Response;
 import com.github.kokecena.restcountries.utils.ResponseUtils;
@@ -20,14 +21,15 @@ public class CountryService {
 
     public ResponseEntity<Response<?>> getCountryByName(String name, boolean fullText) {
         try {
-            if (StringUtils.containsWhitespace(name)) {
+            if (!StringUtils.hasText(name)) {
                 throw new EmptyPathVariableException("No whitespaces");
             }
             if (!name.matches("^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\\\\s-]+$")) {
                 throw new IllegalCharacterException("Invalid characters: ".concat(name));
             }
             return ResponseUtils.createResponse(countryClient.getCountry(name, fullText), HttpStatus.OK);
-        } catch (CountryNotFoundException | EmptyPathVariableException | IllegalCharacterException ex) {
+        } catch (CountryNotFoundException | EmptyPathVariableException | IllegalCharacterException |
+                 InternalServerException ex) {
             return ex.getResponse();
         }
     }

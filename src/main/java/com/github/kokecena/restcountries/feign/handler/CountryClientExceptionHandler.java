@@ -1,6 +1,7 @@
 package com.github.kokecena.restcountries.feign.handler;
 
 import com.github.kokecena.restcountries.exceptions.CountryNotFoundException;
+import com.github.kokecena.restcountries.exceptions.InternalServerException;
 import com.github.kokecena.restcountries.feign.handle.FeignHttpExceptionHandler;
 import com.github.kokecena.restcountries.utils.FeignUtils;
 import feign.Response;
@@ -16,6 +17,8 @@ public class CountryClientExceptionHandler implements FeignHttpExceptionHandler 
         if (HttpStatus.NOT_FOUND.equals(httpStatus)) {
             return new CountryNotFoundException();
         }
-        return new RuntimeException(body);
+        return new InternalServerException(body);
     }
+
+
 }
