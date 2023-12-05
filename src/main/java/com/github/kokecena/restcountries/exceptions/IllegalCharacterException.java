@@ -12,5 +12,4 @@ public class IllegalCharacterException extends ResponseException {
         return HttpStatus.BAD_REQUEST;
     }
 
-
 }
